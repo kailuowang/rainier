@@ -154,17 +154,16 @@ lazy val rainierTests = project.
 /* publishable project with the shaded deps */
 lazy val shadedAsm = project.
   in(file(".rainier-shaded-asm")).
-  settings(name := "rainier-shaded-asm").
+  // note: bump version suffix when the shaded asm jar needs to be
+  // republished for a particular version of the underlying asm lib
+  settings(name := "rainier-shaded-asm_6.0").
+  settings(moduleName := "rainier-shaded-asm_6.0").
   settings(commonSettings).
   settings(
-    // note: bump version suffix when the shaded asm jar needs to be
-    // republished for a particular version of the underlying asm lib
-    version := s"${V.asm}_0",
     crossPaths := false,
     autoScalaLibrary := false,
     exportJars := true,
-    packageBin in Compile := (assembly in asmDeps).value,
-    releaseVersion := { ver => ver }
+    packageBin in Compile := (assembly in asmDeps).value
   )
 
 /* phantom project to bundle deps for shading */
